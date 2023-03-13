@@ -141,14 +141,9 @@ async def echo(message: types.Message):
     if message.text == "python":
         await message.answer("I love it!")
     elif message.text.isdigit():
-        await Bot.send_message(message.from_user.id, int(message.text) ** 2)
+        await bot.send_message(message.from_user.id, int(message.text) ** 2)
     else:
-        await bot.send_message(
-            chat_id=message.from_user.id,
-            text=f"Салалекум хозяин {message.from_user.full_name}"
-        )
-        await message.answer(f"This is an answer method! {message.message_id}")
-        await message.reply("This is a reply method!")
+        await bot.send_message(message.from_user.id, message.text)
 
 
 if __name__ == '__main__':
