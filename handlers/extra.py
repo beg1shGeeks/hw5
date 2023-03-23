@@ -2,7 +2,7 @@ from aiogram import Dispatcher, types
 
 
 async def mem(message: types.message):
-    with open('images/images.jpg', 'rb') as img:
+    with open('images/img.jpg', 'rb') as img:
         await message.answer_photo(photo=img)
 
 
@@ -15,6 +15,6 @@ async def pin_handler(message: types.Message):
         await message.answer("Воспользуйся этой командой что бы закрепить сообщение.")
 
 
-def register_handlers_extra(dp: Dispatcher):
-    dp.register_message_handler(pin_handler, commands=['pin'], commands_prefix='!/')
+def register_hadlers_extra(dp: Dispatcher):
+    dp.register_message_handler(pin_handler, commands=['pin'],commands_prefix='!/')
     dp.register_message_handler(mem, commands=['mem'])

@@ -1,23 +1,19 @@
-import random
-
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import bot
 from aiogram import Dispatcher, types
+from data_base.bot_db import sql_command_random
 
-async def start_command(message: types.Message):
-    await message.answer("Hello world!")
-
-async def quiz_command(message: types.CallbackQuery):
+async def quiz1(message: types.CallbackQuery):
     markup = InlineKeyboardMarkup()
-    button = InlineKeyboardButton("NEXT", callback_data="button")
+    button = InlineKeyboardButton("следущий вопрос?", callback_data="button_1")
     markup.add(button)
 
-    question = "В каком году были основаны курсы Geeks?"
+    question = "сколько дней до лета?"
     answers = [
-        "2019",
-        "2018",
-        "2017",
-        "2020",
+        "20",
+        "18",
+        "27",
+        "хз",
     ]
 
     await bot.send_poll(
@@ -26,22 +22,20 @@ async def quiz_command(message: types.CallbackQuery):
         options=answers,
         is_anonymous=False,
         type='quiz',
-        correct_option_id=1,
-        explanation="Раньше были курсы GeekTech потом был ренбрендинг и переименовали на Geeks",
+        correct_option_id=3,
+        explanation="стыдно не знать!",
         open_period=15,
         reply_markup=markup
 
     )
-
-async def mem_command(message: types.Message):
-    photos = (
-        'media/img.png',
-        'media/img_1.png',
+async def get_random_user(message: types.Message):
+    random_user = await sql_command_random()
+    await message.answer_photo(
+        caption=f"{random_user[2]} {random_user[3]} {random_user[4]} "
+                f"{random_user[5]}\n@{random_user[1]}"
     )
-    photo = open(random.choice(photos), 'rb')
-    await bot.send_photo(message.from_user.id, photo=photo)
+
 
 def register_handlers_client(dp: Dispatcher):
-    dp.register_message_handler(quiz_command, commands=['quiz'])
-    dp.register_message_handler(mem_command, commands=['mem'])
-    dp.register_message_handler(start_command, commands=['start'])
+    dp.register_message_handler(quiz1, commands=['quiz'])
+    dp.register_message_handler(get_random_user, commands=['get'])
