@@ -6,7 +6,6 @@ from keyboards import client_kb
 from config import KURATOR
 from data_base.bot_db import sql_command_insert
 
-
 class FSMAdmin(StatesGroup):
     name = State()
     age = State()
@@ -26,7 +25,6 @@ async def fsm_start(message: types.Message):
     elif not message.from_user.id in KURATOR and message.text.startswith('/reg'):
         await message.answer("Вы не являетесь администратором (КУРАТОРОМ)")
 
-
 async def load_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['id'] = message.from_user.id
@@ -34,7 +32,6 @@ async def load_name(message: types.Message, state: FSMContext):
         data['name'] = message.text
     await FSMAdmin.next()
     await message.answer("Сколько лет?",reply_markup=client_kb.cancel_markup)
-
 
 async def load_age(message: types.Message, state: FSMContext):
     if not message.text.isdigit():
@@ -46,7 +43,6 @@ async def load_age(message: types.Message, state: FSMContext):
             data ['age'] = message.text
         await FSMAdmin.next()
         await message.answer("укажите id:",reply_markup=client_kb.cancel_markup)
-
 
 async def load_id(message: types.Message, state: FSMContext):
      if not message.text.isdigit():

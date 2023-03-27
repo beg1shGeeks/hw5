@@ -26,8 +26,10 @@ async def complete_delete(call: types.CallbackQuery):
     await sql_command_delete(call.data.replace("DELETE ", ""))
     await call.answer(text="Удалено!", show_alert=True)
     await call.message.delete()
+
 def register_handlers_client(dp: Dispatcher):
-    dp.register_message_handler(emoji)
+
     dp.register_message_handler(delete_data,commands=['del'])
     dp.register_callback_query_handler(complete_delete,
                                        lambda call: call.data and call.data.startwith("DELETE"))
+    dp.register_message_handler(emoji)

@@ -30,8 +30,8 @@ async def quiz1(message: types.CallbackQuery):
     )
 async def get_random_user(message: types.Message):
     random_user = await sql_command_random()
-    await message.answer_photo(
-        caption=f"{random_user[2]} {random_user[3]} {random_user[4]} "
+    await message.answer(
+        f"{random_user[2]} {random_user[3]} {random_user[4]} "
                 f"{random_user[5]}\n@{random_user[1]}"
     )
 
